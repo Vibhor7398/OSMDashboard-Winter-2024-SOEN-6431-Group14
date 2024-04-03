@@ -11,10 +11,8 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import android.view.View;
@@ -22,7 +20,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
-import android.util.Log;
+import de.storchp.opentracks.osmplugin.dashboardapi.TrackPoint;
 
 
 public class option4 extends MapsActivity {
@@ -31,7 +29,7 @@ public class option4 extends MapsActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.option4);
-        List<Float> speeds = Arrays.asList(10f, 12f, 13f, 15f, 20f, 18f, 16f, 19f, 21f, 23f, 25f, 29f, 31f,34f,37f,40f,43f, 45f, 47f, 49f,51f, 54f, 58f, 60f,63f,67f,69f, 71f, 73f, 79f);
+        //List<Float> speeds = Arrays.asList(10f, 12f, 13f, 15f, 20f, 18f, 16f, 19f, 21f, 23f, 25f, 29f, 31f,34f,37f,40f,43f, 45f, 47f, 49f,51f, 54f, 58f, 60f,63f,67f,69f, 71f, 73f, 79f);
 
         // Calculate the moving average entries
         //List<Entry> movingAverageEntries = getMovingAverageEntries(speeds);
@@ -49,52 +47,38 @@ public class option4 extends MapsActivity {
         windowSizeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                Log.d("SpinnerSelection", "Item selected in spinner. Position: " + position + ", ID: " + id);
-
                 int windowSize = Integer.parseInt(parentView.getItemAtPosition(position).toString());
-                Log.d("SpinnerSelection", "Selected window size: " + windowSize);
-                List<Entry> movingAverageEntries = getMovingAverageEntries(speeds, windowSize);
-                Log.d("SpinnerSelection", "Moving averages calculated. Number of entries: " + movingAverageEntries.size());
-
+                List<Entry> movingAverageEntries = getMovingAverageEntries(windowSize);
                 setUpChart(chart, movingAverageEntries);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
-                if(speeds != null && chart != null) {
-                    List<Entry> movingAverageEntries = getMovingAverageEntries(speeds, 5); // Using 5 as the default window size
-                    setUpChart(chart, movingAverageEntries);
-                }
+//                if(movingAverageEntries != null && chart != null) {
+//                    List<Entry> movingAverageEntries = getMovingAverageEntries(speeds, 5); // Using 5 as the default window size
+//                    setUpChart(chart, movingAverageEntries);
+//                }
             }
         });
-//        // Find the LineChart in the layout
-//        LineChart lineChart = findViewById(R.id.lineChart);
-//
-//        // Create sample data for the line chart
-//        List<Entry> entries = new ArrayList<>();
-//        entries.add(new Entry(1, 10));
-//        entries.add(new Entry(2, 20));
-//        entries.add(new Entry(3, 15));
-//        entries.add(new Entry(4, 25));
-//        entries.add(new Entry(5, 30));
+
     }
 
-    private List<Entry> getMovingAverageEntries(List<Float> speeds, int windowSize) {
+    private List<Entry> getMovingAverageEntries(int windowSize) {
         List<Entry> entries = new ArrayList<>();
-        for (int i = 0; i < speeds.size(); i++) {
-            if (i >= windowSize-1) {
+        for (int i = 0; i < TrackPoint.speedTimeEntries.size(); i++) {
+            if (i >= windowSize - 1) {
                 float sum = 0;
-                for (int j = i - (windowSize-1); j <= i; j++) {
-                    sum += speeds.get(j);
+                for (int j = i - (windowSize - 1); j <= i; j++) {
+                    sum += TrackPoint.speedTimeEntries.get(j).first.floatValue();
                 }
                 float average = sum / windowSize;
-                entries.add(new Entry(i, average));
+                entries.add(new Entry(i, average)); // Use 'i' as X-axis or convert time string if needed
             }
         }
         return entries;
     }
 
-        private void setUpChart(LineChart lineChart, List<Entry> entries){
+    private void setUpChart(LineChart lineChart, List<Entry> entries){
             // Create a LineDataSet with the sample data
             LineDataSet dataSet = new LineDataSet(entries, "Speed");
             dataSet.setColor(Color.BLUE);
