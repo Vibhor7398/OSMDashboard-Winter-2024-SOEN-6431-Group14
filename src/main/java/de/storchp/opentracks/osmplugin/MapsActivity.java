@@ -181,7 +181,7 @@ public class MapsActivity extends BaseActivity implements ItemizedLayer.OnItemGe
 
 
         Button newButton = new Button(this);
-        newButton.setText("New Butto");
+        newButton.setText("Visualize");
 
         // Set layout parameters for the button
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(

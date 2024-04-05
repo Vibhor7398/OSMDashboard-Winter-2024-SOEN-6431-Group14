@@ -1,11 +1,11 @@
 package de.storchp.opentracks.osmplugin.dashboardapi;
 
 import static de.storchp.opentracks.osmplugin.dashboardapi.APIConstants.LAT_LON_FACTOR;
-
 import android.content.ContentResolver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.util.Log;
+import android.util.Pair;
 
 import org.oscim.core.GeoPoint;
 
@@ -30,7 +30,12 @@ public class TrackPoint {
     public static final String TIME = "time";
     public static final String TYPE = "type";
     public static final String SPEED = "speed";
+    public static final String ELEVATION = "elevation";
+
     public static final double PAUSE_LATITUDE = 100.0;
+
+    public static final List<Pair<Double, String>> speedTimeEntries = new ArrayList<>();
+    public static final List<Pair<Double, Double>> speedElevationEntries = new ArrayList<>();
 
     public static final String[] PROJECTION_V1 = {
             _ID,
@@ -38,7 +43,8 @@ public class TrackPoint {
             LATITUDE,
             LONGITUDE,
             TIME,
-            SPEED
+            SPEED,
+            ELEVATION
     };
 
     public static final String[] PROJECTION_V2 = {
@@ -48,7 +54,8 @@ public class TrackPoint {
             LONGITUDE,
             TIME,
             TYPE,
-            SPEED
+            SPEED,
+            ELEVATION
     };
 
     private final long trackPointId;
@@ -57,9 +64,10 @@ public class TrackPoint {
     private final boolean pause;
     private final double speed;
     private final String time; // Assuming time is stored as a long timestamp
+    private final double elevation;
 
 
-    public TrackPoint(long trackId, long trackPointId, double latitude, double longitude, Integer type, double speed, String time) {
+    public TrackPoint(long trackId, long trackPointId, double latitude, double longitude, Integer type, double speed,double elevation, String time) {
         this.trackId = trackId;
         this.trackPointId = trackPointId;
         if (MapUtils.isValid(latitude, longitude)) {
@@ -69,6 +77,7 @@ public class TrackPoint {
         }
         this.pause = type != null ? type == 3 : latitude == PAUSE_LATITUDE;
         this.speed = speed;
+        this.elevation = elevation;
         this.time = time;
     }
 
@@ -89,6 +98,7 @@ public class TrackPoint {
                 ", pause=" + pause +
                 ", speed=" + speed +
                 ",time=" + time+
+                ",elevation=" + elevation+
                 '}';
     }
 
@@ -118,6 +128,7 @@ public class TrackPoint {
                 var typeIndex = cursor.getColumnIndex(TrackPoint.TYPE);
                 var speed = cursor.getDouble(cursor.getColumnIndexOrThrow(TrackPoint.SPEED));
                 var time = cursor.getString(cursor.getColumnIndexOrThrow(TrackPoint.TIME)); // Fetch the time value for the current track point
+                var elevation = cursor.getDouble(cursor.getColumnIndexOrThrow(TrackPoint.ELEVATION));
                 Log.d("ttt", "Fetched time from cursor: " + time);
                 String formattedTime;
                 try {
@@ -130,6 +141,9 @@ public class TrackPoint {
                     formattedTime = "Invalid timestamp"; // Fallback in case of parsing error
                 }
 
+                TrackPoint.addSpeedTimeEntry(speed, formattedTime);
+                TrackPoint.addSpeedElevationEntry(speed,elevation);
+
 
                 Integer type = null;
                 if (typeIndex > -1) {
@@ -141,7 +155,7 @@ public class TrackPoint {
                     segments.add(segment);
                 }
 
-                lastTrackPoint = new TrackPoint(trackId, trackPointId, latitude, longitude, type, speed , formattedTime);
+                lastTrackPoint = new TrackPoint(trackId, trackPointId, latitude, longitude, type, speed ,elevation, formattedTime);
                 Log.d("lastTrackPoint", String.valueOf(lastTrackPoint));
                 if (lastTrackPoint.hasValidLocation()) {
                     segment.add(lastTrackPoint);
@@ -154,7 +168,7 @@ public class TrackPoint {
                        if (segment.size() > 0) {
                            var previousTrackpoint = segment.get(segment.size() - 1);
                            if (previousTrackpoint.hasValidLocation()) {
-                               segment.add(new TrackPoint(trackId, trackPointId, previousTrackpoint.getLatLong().getLatitude(), previousTrackpoint.getLatLong().getLongitude(), type, speed, formattedTime));
+                               segment.add(new TrackPoint(trackId, trackPointId, previousTrackpoint.getLatLong().getLatitude(), previousTrackpoint.getLatLong().getLongitude(), type, speed,elevation, formattedTime));
                            }
                        }
                     }
@@ -198,7 +212,27 @@ public class TrackPoint {
 //            Log.e("TrackPointTime", "Error parsing time: " + time, e);
             return time; // Fallback to original time string in case of parsing error
         }
+
+
+    public static void addSpeedTimeEntry(double speed, String time) {
+        speedTimeEntries.add(new Pair<>(speed, time));
+        //Log.d("TrackPointData", "Entry added - Speed: " + speed + ", Time: " + time);
+    }
+    // Method to clear the list (optional, but useful for managing memory)
+    public static void clearSpeedTimeEntries() {
+        speedTimeEntries.clear();
+    }
 //    }
+
+    public static void addSpeedElevationEntry(double speed, double elevation) {
+        speedElevationEntries.add(new Pair<>(speed, elevation));
+    }
+
+    // Method to clear the list for managing memory
+    public static void clearSpeedElevationEntries() {
+        speedElevationEntries.clear();
+    }
+
 
 
 }

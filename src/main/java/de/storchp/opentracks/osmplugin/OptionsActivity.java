@@ -25,19 +25,19 @@ public class OptionsActivity extends MapsActivity {
                 Toast.makeText(OptionsActivity.this, "Selected: " + selectedText, Toast.LENGTH_SHORT).show();
 
 
-                if (selectedText.equals("Option 1")) {
+                if (selectedText.equals("Bar Graph 1")) {
                     Intent intent = new Intent(OptionsActivity.this, option1.class);
                     startActivity(intent);
                 }
-                else if (selectedText.equals("Option 2")) {
+                else if (selectedText.equals("Bar Graph 2")) {
                     Intent intent = new Intent(OptionsActivity.this, option2.class);
                     startActivity(intent);
                 }
-                else if (selectedText.equals("Option 3")) {
+                else if (selectedText.equals("Bar Graph 3")) {
                     Intent intent = new Intent(OptionsActivity.this, option3.class);
                     startActivity(intent);
                 }
-                else if (selectedText.equals("Option 4")) {
+                else if (selectedText.equals("Line Chart")) {
                     Intent intent = new Intent(OptionsActivity.this, option4.class);
                     startActivity(intent);
                 }
