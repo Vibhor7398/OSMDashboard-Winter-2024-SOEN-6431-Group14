@@ -12,6 +12,9 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,7 +52,9 @@ public class option4 extends MapsActivity {
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 int windowSize = Integer.parseInt(parentView.getItemAtPosition(position).toString());
                 List<Entry> movingAverageEntries = getMovingAverageEntries(windowSize);
+                List<Entry> timeAverageEntries = getTimeAverageEntries(windowSize);
                 setUpChart(chart, movingAverageEntries);
+                setUpChart(chart, timeAverageEntries);
             }
 
             @Override
@@ -61,6 +66,29 @@ public class option4 extends MapsActivity {
             }
         });
 
+    }
+
+
+    private List<Entry> getTimeAverageEntries(int windowSize){
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        List<Entry> entries = new ArrayList<>();
+        for (int i = windowSize - 1; i < TrackPoint.speedTimeEntries.size(); i++) {
+            float sum = 0;
+            for (int j = i - (windowSize - 1); j < i; j++) { // Note the change from j <= i to j < i
+                String currentTimeStr = TrackPoint.speedTimeEntries.get(j).second;
+                String nextTimeStr = TrackPoint.speedTimeEntries.get(j + 1).second;
+
+                LocalDateTime currentTime = LocalDateTime.parse(currentTimeStr, dateTimeFormatter);
+                LocalDateTime nextTime = LocalDateTime.parse(nextTimeStr, dateTimeFormatter);
+
+                Duration duration = Duration.between(currentTime, nextTime);
+                sum += (float)duration.getSeconds();
+            }
+            // Note: You may need to adjust how you calculate 'sum' based on what you're trying to achieve
+            float average = sum / windowSize;
+            entries.add(new Entry(i, average)); // Use 'i' as X-axis or convert time string if needed
+        }
+        return entries;
     }
 
     private List<Entry> getMovingAverageEntries(int windowSize) {
@@ -79,56 +107,56 @@ public class option4 extends MapsActivity {
     }
 
     private void setUpChart(LineChart lineChart, List<Entry> entries){
-            // Create a LineDataSet with the sample data
-            LineDataSet dataSet = new LineDataSet(entries, "Speed");
-            dataSet.setColor(Color.BLUE);
-            dataSet.setValueTextColor(Color.BLACK);
-            dataSet.setLineWidth(2.5f); // Make the line a bit thicker
-            dataSet.setCircleRadius(4f); // Increase the data point circle size
-            dataSet.setCircleColor(Color.BLUE);
-            dataSet.setDrawValues(false); // Disable drawing values on top of the data points
-            dataSet.setDrawFilled(false); // Fill the area below the line
-            //dataSet.setFillColor(Color.BLUE); // Set a fill color
-            dataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+        // Create a LineDataSet with the sample data
+        LineDataSet dataSet = new LineDataSet(entries, "Speed");
+        dataSet.setColor(Color.GREEN);
+        dataSet.setValueTextColor(Color.BLACK);
+        dataSet.setLineWidth(2.5f); // Make the line a bit thicker
+        dataSet.setCircleRadius(4f); // Increase the data point circle size
+        dataSet.setCircleColor(Color.BLUE);
+        dataSet.setDrawValues(false); // Disable drawing values on top of the data points
+        dataSet.setDrawFilled(false); // Fill the area below the line
+        //dataSet.setFillColor(Color.BLUE); // Set a fill color
+        dataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
 
-            // Create a LineData object with the LineDataSet
-            LineData lineData = new LineData(dataSet);
+        // Create a LineData object with the LineDataSet
+        LineData lineData = new LineData(dataSet);
 
-            // Set the LineData to the LineChart
-            lineChart.setData(lineData);
+        // Set the LineData to the LineChart
+        lineChart.setData(lineData);
 
-            XAxis xAxis = lineChart.getXAxis();
-            xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-            xAxis.setDrawAxisLine(true);
-            xAxis.setDrawGridLines(true);
-            xAxis.setGridColor(Color.LTGRAY); // Set grid line color
-            xAxis.setGridLineWidth(1f); // Set grid line width
-            xAxis.setTextColor(Color.BLACK);
-            xAxis.setTextSize(12f);
-            xAxis.setAxisLineWidth(2f);
+        XAxis xAxis = lineChart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setDrawAxisLine(true);
+        xAxis.setDrawGridLines(true);
+        xAxis.setGridColor(Color.LTGRAY); // Set grid line color
+        xAxis.setGridLineWidth(1f); // Set grid line width
+        xAxis.setTextColor(Color.BLACK);
+        xAxis.setTextSize(12f);
+        xAxis.setAxisLineWidth(2f);
 
-            YAxis leftAxis = lineChart.getAxisLeft();
-            leftAxis.setTextColor(Color.BLACK);
-            leftAxis.setGridColor(Color.LTGRAY); // Set grid line color
-            leftAxis.setGridLineWidth(1f);
-            leftAxis.setTextSize(12f);
-            leftAxis.setDrawGridLines(true);
-            leftAxis.setDrawAxisLine(true);
-            leftAxis.setAxisLineWidth(2f);
+        YAxis leftAxis = lineChart.getAxisLeft();
+        leftAxis.setTextColor(Color.BLACK);
+        leftAxis.setGridColor(Color.LTGRAY); // Set grid line color
+        leftAxis.setGridLineWidth(1f);
+        leftAxis.setTextSize(12f);
+        leftAxis.setDrawGridLines(true);
+        leftAxis.setDrawAxisLine(true);
+        leftAxis.setAxisLineWidth(2f);
 
-            Legend legend = lineChart.getLegend();
-            legend.setEnabled(true);
-            legend.setTextColor(Color.BLACK);
-            legend.setTextSize(12f);
-            legend.setForm(Legend.LegendForm.LINE);
-            legend.setFormSize(10f);
-            legend.setXEntrySpace(5f);
-            legend.setFormToTextSpace(5f);
+        Legend legend = lineChart.getLegend();
+        legend.setEnabled(true);
+        legend.setTextColor(Color.BLACK);
+        legend.setTextSize(12f);
+        legend.setForm(Legend.LegendForm.LINE);
+        legend.setFormSize(10f);
+        legend.setXEntrySpace(5f);
+        legend.setFormToTextSpace(5f);
 
-            lineChart.setTouchEnabled(false);
+        lineChart.setTouchEnabled(false);
 
 
-            lineChart.getAxisRight().setEnabled(false);
+        lineChart.getAxisRight().setEnabled(false);
 
 
 //        XAxis xAxis = lineChart.getXAxis();
@@ -136,16 +164,16 @@ public class option4 extends MapsActivity {
 //        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
 //        xAxis.setGranularity(1f);
 //        xAxis.setLabelCount(12);
-            // Customize the LineChart as needed
-            Description description = new Description();
-            description.setText("Time");
-            lineChart.setDescription(description);
-            description.setTextColor(Color.BLACK);
-            description.setTextSize(12f);
+        // Customize the LineChart as needed
+        Description description = new Description();
+        description.setText("Time");
+        lineChart.setDescription(description);
+        description.setTextColor(Color.BLACK);
+        description.setTextSize(12f);
 
-            lineChart.setTouchEnabled(true);
-            lineChart.setPinchZoom(true);
-           // lineChart.animateXY(1000, 1000);
-            lineChart.invalidate(); // Refresh the chart
-        }
+        lineChart.setTouchEnabled(true);
+        lineChart.setPinchZoom(true);
+        // lineChart.animateXY(1000, 1000);
+        lineChart.invalidate(); // Refresh the chart
+    }
 }
