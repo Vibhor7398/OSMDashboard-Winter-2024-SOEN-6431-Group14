@@ -25,7 +25,7 @@ public class TrackPoint {
     public static final String SPEED = "speed";
     public static final double PAUSE_LATITUDE = 100.0;
 
-    protected static final String[] PROJECTION_V1 = {
+    public static final String[] PROJECTION_V1 = {
             _ID,
             TRACKID,
             LATITUDE,
@@ -34,7 +34,7 @@ public class TrackPoint {
             SPEED
     };
 
-    protected static final String[] PROJECTION_V2 = {
+    public static final String[] PROJECTION_V2 = {
             _ID,
             TRACKID,
             LATITUDE,
@@ -87,7 +87,7 @@ public class TrackPoint {
             TrackPoint lastTrackPoint = null;
             List<TrackPoint> segment = null;
             while (cursor.moveToNext()) {
-                debug.setTrackpointsReceived(debug.getTrackpointsReceived() + 1);
+                debug.trackpointsReceived++;
                 var trackPointId = cursor.getLong(cursor.getColumnIndexOrThrow(TrackPoint._ID));
                 var trackId = cursor.getLong(cursor.getColumnIndexOrThrow(TrackPoint.TRACKID));
                 var latitude = cursor.getInt(cursor.getColumnIndexOrThrow(TrackPoint.LATITUDE)) / LAT_LON_FACTOR;
@@ -109,25 +109,25 @@ public class TrackPoint {
                 if (lastTrackPoint.hasValidLocation()) {
                     segment.add(lastTrackPoint);
                 } else if (!lastTrackPoint.isPause()) {
-                    debug.setTrackpointsInvalid(debug.getTrackpointsInvalid() + 1);
+                    debug.trackpointsInvalid++;
                 }
                 if (lastTrackPoint.isPause()) {
-                    debug.setTrackpointsPause(debug.getTrackpointsPause() + 1);
+                    debug.trackpointsPause++;
                     if (!lastTrackPoint.hasValidLocation()) {
-                        if (segment.size() > 0) {
-                            var previousTrackpoint = segment.get(segment.size() - 1);
-                            if (previousTrackpoint.hasValidLocation()) {
-                                segment.add(new TrackPoint(trackId, trackPointId, previousTrackpoint.getLatLong().getLatitude(), previousTrackpoint.getLatLong().getLongitude(), type, speed));
-                            }
-                        }
-                        lastTrackPoint = null;
+                       if (segment.size() > 0) {
+                           var previousTrackpoint = segment.get(segment.size() - 1);
+                           if (previousTrackpoint.hasValidLocation()) {
+                               segment.add(new TrackPoint(trackId, trackPointId, previousTrackpoint.getLatLong().getLatitude(), previousTrackpoint.getLatLong().getLongitude(), type, speed));
+                           }
+                       }
                     }
+                    lastTrackPoint = null;
                 }
             }
-            debug.setSegments(segments.size());
-
-            return new TrackPointsBySegments(segments, debug);
         }
+        debug.segments = segments.size();
+
+        return new TrackPointsBySegments(segments, debug);
     }
 
     public long getTrackPointId() {
