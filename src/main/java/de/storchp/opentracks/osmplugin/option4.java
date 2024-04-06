@@ -29,10 +29,6 @@ public class option4 extends MapsActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.option4);
-        //List<Float> speeds = Arrays.asList(10f, 12f, 13f, 15f, 20f, 18f, 16f, 19f, 21f, 23f, 25f, 29f, 31f,34f,37f,40f,43f, 45f, 47f, 49f,51f, 54f, 58f, 60f,63f,67f,69f, 71f, 73f, 79f);
-
-        // Calculate the moving average entries
-        //List<Entry> movingAverageEntries = getMovingAverageEntries(speeds);
 
         // Setup the chart
         LineChart chart = findViewById(R.id.lineChart);
@@ -41,8 +37,6 @@ public class option4 extends MapsActivity {
                 R.array.window_size_options, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         windowSizeSpinner.setAdapter(adapter);
-
-        //windowSizeSpinner.setSelection(adapter.getPosition("5"));//default
 
         windowSizeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -72,44 +66,39 @@ public class option4 extends MapsActivity {
                     sum += TrackPoint.speedTimeEntries.get(j).first.floatValue();
                 }
                 float average = sum / windowSize;
-                entries.add(new Entry(i, average)); // Use 'i' as X-axis or convert time string if needed
+                entries.add(new Entry(i, average));
             }
         }
         return entries;
     }
 
     private void setUpChart(LineChart lineChart, List<Entry> entries){
-            // Create a LineDataSet with the sample data
-            LineDataSet dataSet = new LineDataSet(entries, "Speed");
+            LineDataSet dataSet = new LineDataSet(entries, "Moving Average Speed");
             dataSet.setColor(Color.BLUE);
             dataSet.setValueTextColor(Color.BLACK);
-            dataSet.setLineWidth(2.5f); // Make the line a bit thicker
-            dataSet.setCircleRadius(4f); // Increase the data point circle size
+            dataSet.setLineWidth(2.5f);
+            dataSet.setCircleRadius(4f);
             dataSet.setCircleColor(Color.BLUE);
-            dataSet.setDrawValues(false); // Disable drawing values on top of the data points
-            dataSet.setDrawFilled(false); // Fill the area below the line
-            //dataSet.setFillColor(Color.BLUE); // Set a fill color
+            dataSet.setDrawValues(false);
+            dataSet.setDrawFilled(false);
             dataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
 
-            // Create a LineData object with the LineDataSet
             LineData lineData = new LineData(dataSet);
-
-            // Set the LineData to the LineChart
             lineChart.setData(lineData);
 
             XAxis xAxis = lineChart.getXAxis();
             xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
             xAxis.setDrawAxisLine(true);
             xAxis.setDrawGridLines(true);
-            xAxis.setGridColor(Color.LTGRAY); // Set grid line color
-            xAxis.setGridLineWidth(1f); // Set grid line width
+            xAxis.setGridColor(Color.LTGRAY);
+            xAxis.setGridLineWidth(1f);
             xAxis.setTextColor(Color.BLACK);
             xAxis.setTextSize(12f);
             xAxis.setAxisLineWidth(2f);
 
             YAxis leftAxis = lineChart.getAxisLeft();
             leftAxis.setTextColor(Color.BLACK);
-            leftAxis.setGridColor(Color.LTGRAY); // Set grid line color
+            leftAxis.setGridColor(Color.LTGRAY);
             leftAxis.setGridLineWidth(1f);
             leftAxis.setTextSize(12f);
             leftAxis.setDrawGridLines(true);
@@ -126,17 +115,8 @@ public class option4 extends MapsActivity {
             legend.setFormToTextSpace(5f);
 
             lineChart.setTouchEnabled(false);
-
-
             lineChart.getAxisRight().setEnabled(false);
 
-
-//        XAxis xAxis = lineChart.getXAxis();
-//        xAxis.setValueFormatter(new IndexAxisValueFormatter());
-//        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-//        xAxis.setGranularity(1f);
-//        xAxis.setLabelCount(12);
-            // Customize the LineChart as needed
             Description description = new Description();
             description.setText("Time");
             lineChart.setDescription(description);
@@ -145,7 +125,6 @@ public class option4 extends MapsActivity {
 
             lineChart.setTouchEnabled(true);
             lineChart.setPinchZoom(true);
-           // lineChart.animateXY(1000, 1000);
-            lineChart.invalidate(); // Refresh the chart
+            lineChart.invalidate();
         }
 }

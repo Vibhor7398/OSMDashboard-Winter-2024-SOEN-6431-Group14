@@ -182,24 +182,18 @@ public class TrackPoint {
     }
 
     public GeoPoint getLatLong() {
-//        Log.d("time", String.valueOf(latLong));
-
         return latLong;
     }
 
     public double getSpeed() {
-//        Log.d("time", String.valueOf(speed));
-
         return speed;
     }
     public String getTime() {
-        return time; // Fallback to original time string in case of parsing error
+        return time;
     }
-//    }
 
     public static void addSpeedTimeEntry(double speed, String time) {
         speedTimeEntries.add(new Pair<>(speed, time));
-        //Log.d("TrackPointData", "Entry added - Speed: " + speed + ", Time: " + time);
     }
     // Method to clear the list (optional, but useful for managing memory)
     public static void clearSpeedTimeEntries() {
