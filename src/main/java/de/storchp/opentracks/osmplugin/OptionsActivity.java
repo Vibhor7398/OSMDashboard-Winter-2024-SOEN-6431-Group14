@@ -25,21 +25,35 @@ public class OptionsActivity extends MapsActivity {
                 Toast.makeText(OptionsActivity.this, "Selected: " + selectedText, Toast.LENGTH_SHORT).show();
 
 
-                if (selectedText.equals("Bar Graph 1")) {
-                    Intent intent = new Intent(OptionsActivity.this, option1.class);
-                    startActivity(intent);
-                }
-                else if (selectedText.equals("Bar Graph 2")) {
-                    Intent intent = new Intent(OptionsActivity.this, option2.class);
-                    startActivity(intent);
-                }
-                else if (selectedText.equals("Bar Graph 3")) {
-                    Intent intent = new Intent(OptionsActivity.this, option3.class);
-                    startActivity(intent);
-                }
-                else if (selectedText.equals("Line Chart")) {
-                    Intent intent = new Intent(OptionsActivity.this, option4.class);
-                    startActivity(intent);
+                switch (selectedText) {
+                    case "Bar Graph 1" -> {
+                        Intent intent = new Intent(OptionsActivity.this, option1.class);
+                        startActivity(intent);
+                    }
+                    case "Bar Graph 2" -> {
+                        Intent intent = new Intent(OptionsActivity.this, option2.class);
+                        startActivity(intent);
+                    }
+                    case "Bar Graph 3" -> {
+                        Intent intent = new Intent(OptionsActivity.this, option3.class);
+                        startActivity(intent);
+                    }
+                    case "Line Chart" -> {
+                        Intent intent = new Intent(OptionsActivity.this, option4.class);
+                        startActivity(intent);
+                    }
+                    case "Distance Graph" -> {
+                        Intent intent = new Intent(OptionsActivity.this, DistanceGraph.class);
+                        startActivity(intent);
+                    }
+                    case "Duration Graph" -> {
+                        Intent intent = new Intent(OptionsActivity.this, DurationGraph.class);
+                        startActivity(intent);
+                    }
+                    case "Runs Graph" -> {
+                        Intent intent = new Intent(OptionsActivity.this, RunsGraph.class);
+                        startActivity(intent);
+                    }
                 }
             }
         });

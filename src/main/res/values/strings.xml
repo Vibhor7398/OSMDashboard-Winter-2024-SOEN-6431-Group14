@@ -95,5 +95,7 @@
     <string name="settings_ui_dynamic_colors_title">Dynamic Colors</string>
     <string name="settings_ui_dynamic_colors_summary">Use user-defined Dynamic Colors (Android 12+ only; requires a manual restart)</string>
     <string name="hello_hihiiiii">Hello hihiiiii</string>
+    <string name="duration_h">Duration(H)</string>
+    <string name="distance_vs_time_distribution">Distance vs Time Distribution</string>
 
 </resources>

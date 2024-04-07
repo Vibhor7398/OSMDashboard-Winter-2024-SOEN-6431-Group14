@@ -5,7 +5,7 @@ buildscript {
         gradlePluginPortal()
 
         // Add JitPack repository for MPAndroidChart
-        maven { url 'https://jitpack.io' }
+        maven { url "https://jitpack.io" }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:8.2.2'
@@ -37,7 +37,7 @@ android {
         google()
         mavenCentral()
         // JitPack repository for MPAndroidChart
-        maven { url 'https://jitpack.io' }
+        maven { url "https://jitpack.io" }
     }
 
     dependencies {
