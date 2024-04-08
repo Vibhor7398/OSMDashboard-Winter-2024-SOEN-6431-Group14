@@ -29,7 +29,7 @@ public class option3 extends MapsActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.option1);
+        setContentView(R.layout.option3);
 
         BarChart barChart = findViewById(R.id.barChart);
         ArrayList<BarEntry> entries = new ArrayList<>();
@@ -58,7 +58,7 @@ public class option3 extends MapsActivity {
             entries.add(new BarEntry(hour, hourCounts.get(hour)));
         }
 
-        BarDataSet dataSet = new BarDataSet(entries, "Data Recording Frequency by Hour");
+        BarDataSet dataSet = new BarDataSet(entries, "Time Distribution by Hour");
         BarData barData = new BarData(dataSet);
         barChart.setData(barData);
 
@@ -75,7 +75,7 @@ public class option3 extends MapsActivity {
         xAxis.setLabelCount(entries.size());
 
         Description description = new Description();
-        description.setText("Hourly Data Recording Distribution");
+        description.setText("");
         description.setTextSize(16f);
         barChart.setDescription(description);
 

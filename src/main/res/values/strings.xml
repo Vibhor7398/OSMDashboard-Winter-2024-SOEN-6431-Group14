@@ -97,5 +97,8 @@
     <string name="hello_hihiiiii">Hello hihiiiii</string>
     <string name="duration_h">Duration(H)</string>
     <string name="distance_vs_time_distribution">Distance vs Time Distribution</string>
+    <string name="frequency_vs_speed_distribution">Frequency vs Speed Distribution</string>
+    <string name="average_elevation_vs_speed_range">Average Elevation vs Speed Range</string>
+    <string name="frequency_vs_time_distribution">Frequency vs Time Distribution</string>
 
 </resources>

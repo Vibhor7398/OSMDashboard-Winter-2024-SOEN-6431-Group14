@@ -9,15 +9,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:text="@string/average_elevation_vs_speed_range"
+        android:layout_marginTop="126dp"
+        android:text="@string/distance_vs_time_distribution"
         android:textColor="@android:color/black"
-        android:textSize="18sp"/>
+        android:textSize="18sp" />
 
     <com.github.mikephil.charting.charts.BarChart
-        android:id="@+id/barChart"
+        android:id="@+id/bar1Chart"
         android:layout_width="match_parent"
         android:layout_height="300dp"
-        android:layout_below="@id/chartLabel" />
+        android:layout_below="@id/chartLabel"
+        android:layout_marginTop="35dp" />
+
+    <include
+        layout="@layout/filterbar"
+        android:layout_width="wrap_content"
+        android:layout_height="84dp" /> <!-- Position below the label -->
 
 </RelativeLayout>
