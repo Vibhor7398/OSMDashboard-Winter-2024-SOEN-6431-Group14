@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:text="@string/duration_h"
+        android:text="@string/average_elevation_vs_speed_range"
         android:textColor="@android:color/black"
         android:textSize="18sp"/>
 
