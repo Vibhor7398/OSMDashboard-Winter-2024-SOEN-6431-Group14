@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:checked="false"
-            android:text="Bar Graph 1" />
+            android:text="Frequency vs Speed Range Graph" />
 
         <RadioButton
             android:id="@+id/radioButton2"
@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/radioButton1"
             android:layout_marginTop="16dp"
-            android:text="Bar Graph 2" />
+            android:text="Avg Elevation vs Speed Range Graph" />
 
         <RadioButton
             android:id="@+id/radioButton3"
@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/radioButton2"
             android:layout_marginTop="16dp"
-            android:text="Bar Graph 3" />
+            android:text="Frequency vs Time Distribution Graph" />
 
         <RadioButton
             android:id="@+id/radioButton4"
