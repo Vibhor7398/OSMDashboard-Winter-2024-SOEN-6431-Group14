@@ -107,5 +107,6 @@
     <string name="runs_graph">runs graph</string>
     <string name="distance_graph">distance graph</string>
     <string name="duration_graph">duration graph</string>
+    <string name="duration_vs_time_distribution" />
 
 </resources>

@@ -13,13 +13,13 @@ public class OptionsActivity extends MapsActivity {
         setContentView(R.layout.options_activity);
 
         // Find the Buttons in the layout
-        Button button1 = findViewById(R.id.button1);
-        Button button2 = findViewById(R.id.button2);
-        Button button3 = findViewById(R.id.button3);
-        Button button4 = findViewById(R.id.button4);
-        Button button5 = findViewById(R.id.button5);
-        Button button6 = findViewById(R.id.button6);
-        Button button7 = findViewById(R.id.button7);
+        Button button1 = findViewById(R.id.radioButton1);
+        Button button2 = findViewById(R.id.radioButton2);
+        Button button3 = findViewById(R.id.radioButton3);
+        Button button4 = findViewById(R.id.radioButton4);
+        Button button5 = findViewById(R.id.radioButton5);
+        Button button6 = findViewById(R.id.radioButton6);
+        Button button7 = findViewById(R.id.radioButton7);
 
         // Set listeners for button clicks
         button1.setOnClickListener(new View.OnClickListener() {

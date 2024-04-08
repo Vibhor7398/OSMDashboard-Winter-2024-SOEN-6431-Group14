@@ -15,6 +15,8 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import de.storchp.opentracks.osmplugin.utils.Filter;
+
 public class DurationGraph extends MapsActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
