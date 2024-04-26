@@ -63,5 +63,10 @@
         <item>@string/settings_night_mode_option_day</item>
         <item>@string/settings_night_mode_option_night</item>
     </string-array>
+    <string-array name="filter_options">
+        <item>weeks</item>
+        <item>months</item>
+        <item>seasons</item>
+    </string-array>
 
 </resources>

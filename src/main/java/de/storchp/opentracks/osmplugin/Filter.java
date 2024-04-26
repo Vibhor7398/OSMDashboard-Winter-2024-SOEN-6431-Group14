@@ -14,7 +14,7 @@ public class Filter extends AppCompatActivity implements AdapterView.OnItemSelec
     private final String[] filterOptions = {"Week", "Month", "Season"};
     private static int selectedFilterOption = 7; // Default value to 7
 
-    public static int getBarSize() {
+    public static int getFilterOption() {
         return selectedFilterOption;
     }
 
@@ -38,9 +38,9 @@ public class Filter extends AppCompatActivity implements AdapterView.OnItemSelec
     @Override
     public void onItemSelected(AdapterView<?> parent, View v, int position, long id) {
         switch (position) {
-            case 0 -> selectedFilterOption = 7;
-            case 1 -> selectedFilterOption = 12;
-            case 2 -> selectedFilterOption = 3;
+            case 0 -> selectedFilterOption = 7; // Week
+            case 1 -> selectedFilterOption = 12; // Month
+            case 2 -> selectedFilterOption = 3; // Season
         }
     }
 

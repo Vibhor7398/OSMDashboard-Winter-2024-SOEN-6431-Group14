@@ -20,7 +20,7 @@ public class DurationGraph extends MapsActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.durationgraph);
-        int size = Filter.getBarSize();
+        int size = Filter.getFilterOption();
 
         BarChart barChart = findViewById(R.id.barChart);
         ArrayList<BarEntry> entries = new ArrayList<>();
